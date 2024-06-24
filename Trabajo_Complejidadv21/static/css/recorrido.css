@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    overflow: hidden;
+}
+
+video{
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+p{
+    font-size: 1.5rem;
+    background-color: #fff;
+    color: #000;
+}
+
+header{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-60%, -100%);
+    color: #fff;
+    text-align: center;
+}
+
+header h1{
+    font-weight: 500;
+    font-size: 1.75rem;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+#rutas-maritimas {
+    width: 100%;
+    margin: auto;
+    background-color: #000;
+    color: #fff;
+    border-radius: 20px;
+    opacity: 0.7;
+    padding: 1.5rem;    
+}

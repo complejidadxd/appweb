@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Ralewat', sans-serif;
+    overflow: hidden;
+}
+
+video{
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+header{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    color: #fff;
+    text-align: center;
+}
+
+header h1{
+    font-weight: 500;
+    font-size: 1.75rem;
+    text-transform: 1;
+    line-height: 1;
+}
+
+header span{
+    font-weight: 800;
+    font-size: 7rem;
+    display: block;
+}
+
+.description{
+    position: absolute;
+    bottom: 2%;
+    width: 50%;
+    right: 0;
+    left: 0;
+    margin: auto;
+    background-color: #000;
+    color: #fff;
+    border-radius: 20px;
+    opacity: 0.7;
+    padding: 1.5rem;
+}
+
+.description p{
+    text-align: justify;
+    max-width: 42rem;
+    margin-inline: auto;
+    line-height: 1.5;
+}
+
+.copyright{
+    font-size: 0,65rem;
+}
+
+.copyright a{
+    color: #fff;
+    text-underline-offset: 1.8px;
+}
+
+@media screen and (max-width: 1200px){
+    .description{
+        position: absolute;
+        width: 91vm;
+        bottom: 0;
+        border-radius: 20px 20px 0 0;
+        margin: auto;
+        padding: 0.6rem 1.5rem;
+    }
+}
+
+button{
+    padding: 12px 20px;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover{
+    background: #fff;
+    color: #000;
+    font-weight: bold;
+}
+
+.flickity-prev-next-button{
+    width: 85px;
+    height: 85px;
+    background: transparent;
+}
+
+.flickity-prev-next-button .arrow{
+    fill: #fff;
+}

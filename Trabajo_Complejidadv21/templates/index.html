@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/styles.css') }}">
+    <title>Index</title>
+</head>
+<body>
+    <div class="container">
+        <video src="static/bg.mp4" autoplay loop playsinline muted></video>
+        <header>
+            <h1>Complejidad Algoritmíca<span>Teemo</span></h1>
+            <button onclick="window.location.href='/found'">Go!</button>
+
+        </header>
+        <div class="description">
+            <p>
+                Encontrando la mejor ruta desde un punto a otro, tomando en cuenta el cierre de rutas y eventos máritimos
+            </p>
+            <p class="copyright">video credit: be the observer on <a href="https://www.pexels.com/video/sea-water-ocean-sun-3994031/">pexeles.com</a></p>
+        </div>
+    </div>
+</body>
+</html>

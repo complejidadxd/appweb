@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruta Óptima si?</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/ruta.css') }}">
+</head>
+
+<body>
+    <video src="static/bg.mp4" autoplay loop playsinline muted></video>
+    <header>
+        <div id="rutas-maritimas">
+            <h1>Rutas Marítimas</h1>
+            <form action="/find_route" method="post">
+                <label for="start_port">Puerto de Inicio:</label>
+                <input type="text" id="start_port" name="start_port" required>
+                <br><br>
+                <label for="end_port">Puerto de Destino:</label>
+                <input type="text" id="end_port" name="end_port" required>
+                <br><br>
+                <button type="submit">Buscar Ruta</button>
+            </form>
+        </div>
+    </header>
+</body>
+
+</html>
