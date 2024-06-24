@@ -103,7 +103,7 @@ class Map:
                 lat1, lon1 = self.ports[continent][port1]
             if port2 in self.ports[continent]:
                 lat2, lon2 = self.ports[continent][port2]
-        
+
         R = 6371
         dlat = math.radians(lat2 - lat1)
         dlon = math.radians(lon2 - lon1)
@@ -120,7 +120,7 @@ class Map:
         else:  # "in"
             cx = (x1 + x2) / 2 - curvature * (y2 - y1)
             cy = (y1 + y2) / 2 + curvature * (x2 - x1)
-        
+
         points = [x1, y1, cx, cy, x2, y2]
         if visible:
             self.canvas.create_line(points, fill=color, smooth=True, splinesteps=60, width=width)
@@ -139,8 +139,8 @@ class Map:
      spline_trajectory = []
 
      # Puertos peligrosos
-     puertos_peligrosos_amarillo = {'Dubai', 'Shanghai'}
-     puertos_peligrosos_rojo = {'Alexandria', 'Tokyo'}
+     puertos_peligrosos_amarillo = {'Dubai', 'Shanghai','toamasina'}
+     puertos_peligrosos_rojo = {'Alexandria'}
 
      for i in range(len(route) - 1):
         for continent in self.ports:
@@ -237,20 +237,24 @@ def index():
 def find_route():
     start_port = request.form['start_port']
     end_port = request.form['end_port']
-    
-    
+
+
     root = tk.Tk()
 
     # Determina qué mapa usar según si hay puertos de Asia involucrados
-    asia_ports = {'Tokyo', 'Shanghai', 'Singapore', 'Mumbai', 'Dubai' , 'Alexandria'}
+    asia_ports = {'Tokyo', 'Shanghai', 'Singapore', 'Mumbai', 'Dubai', 'Alexandria','Tianjing','Hon Kong','Quanzhou',
+                'Zhanjiang','callao','Valparaiso','fort lauderdale','abiyan','durban','mombasa','toamasina'
+                ,'port-Gentil','Tuticorin','Sidney','Brisbane','Fremantle','Darwin','Moresby','Chennai',
+                'San Petersburgo','Copenhague','Arkits','Murmansk'}
+
     if start_port in asia_ports or end_port in asia_ports:
-        map_file = 'app/static/mapa3.png'
+        map_file = 'static/mapa3.png'
     else:
-        map_file = 'app/static/mapa2.png'
+        map_file = 'static/mapa2.png'
 
     map_widget = Map(root, map_file)
 
-    if map_file == 'app/static/mapa3.png':
+    if map_file == 'static/mapa3.png':
 
         # Elimina puertos y aristas de Europa, África y América que no son necesarios
         for port in list(map_widget.ports['Europa'].keys()):
@@ -261,7 +265,6 @@ def find_route():
             map_widget.deshabilitar_arista(port, port)
 
         # Puertos de Asia - America (con truquito)
-        # Puertos de Asia - America (con truquito)
         map_widget.add_puerto('Tokyo', (31.6895, -34.6917), 'Asia')
         map_widget.add_puerto('Busan', (30.6895, -43.6917), 'Asia')
         map_widget.add_puerto('Shanghai', (27.2304, -50.4737), 'Asia')
@@ -269,7 +272,7 @@ def find_route():
         map_widget.add_puerto('Hon Kong', (19.2304, -58.4737), 'Asia')
         map_widget.add_puerto('Quanzhou', (22.2304, -51.4737), 'Asia')
         map_widget.add_puerto('Zhanjiang', (35.2304, -45.4737), 'Asia')
-            
+
         map_widget.add_puerto('Singapore', (5.3521, -65.8198), 'Asia')
         map_widget.add_puerto('Yakarta', (0, -64), 'Asia')
         map_widget.add_puerto('Mumbai', (18.0760, -98.8777), 'Asia')
@@ -278,6 +281,11 @@ def find_route():
         map_widget.add_puerto('Dubai', (22.276987, -118.296249), 'Asia')
         map_widget.add_puerto('Alexandria', (26.276987, -142.296249), 'Asia')
         map_widget.add_puerto('Aden', (13, -128), 'Asia')
+        map_widget.add_puerto('San Petersburgo', (52, -147), 'Asia')
+        map_widget.add_puerto('Murmansk', (62, -147), 'Asia')
+        map_widget.add_puerto('Arkits', (75, -128), 'Asia')
+        map_widget.add_puerto('Uelen', (77, -16), 'Asia')
+        map_widget.add_puerto('Copenhague', (47, -163), 'Asia')
 
 
         map_widget.add_puerto('Sidney', (-23, -21), 'Asia')
@@ -286,7 +294,7 @@ def find_route():
         map_widget.add_puerto('Darwin', (-5, -35), 'Asia')
         map_widget.add_puerto('Moresby', (-3, -21), 'Asia')
 
-            #america - asia
+        #america - asia
         map_widget.add_puerto('callao', (-11.276987, 65.296249), 'Asia')
         map_widget.add_puerto('buenos aires', (-34.276987, 89), 'Asia')
         map_widget.add_puerto('Valparaiso', (-27.276987, 75), 'Asia')
@@ -301,46 +309,98 @@ def find_route():
         map_widget.add_puerto('san francisco', (29, 19), 'Asia')
         map_widget.add_puerto('vancouver', (42, 23), 'Asia')
         map_widget.add_puerto('prince roupert', (49, 20), 'Asia')
+        map_widget.add_puerto('Guayana francesa', (0, 96), 'Asia')
+        map_widget.add_puerto('cartagena', (6, 70), 'Asia')
+        map_widget.add_puerto('cabello', (5, 80), 'Asia')
 
 
-            #africa - asia
+        #africa - asia
         map_widget.add_puerto('abiyan', (8.0, -177.5), 'Africa')
         map_widget.add_puerto('durban', (-20.0, -150.0), 'Africa')
         map_widget.add_puerto('mombasa', (2.5, -133.0), 'Africa')
         map_widget.add_puerto('toamasina', (-8.0, -124.0), 'Africa')
         map_widget.add_puerto('port-Gentil', (4.0, -165.0), 'Africa')
 
-        # agregados: 
-        
-        
-
         # Aristas de Asia - America (con truquito)
         # PRUEBA DE BASE DE DATOS
 
-        map_widget.add_arista('Tokyo', 'Shanghai', map_widget.distance('Tokyo', 'Shanghai'), curvature=0.3, direction="in")
-        map_widget.add_arista('Shanghai', 'Singapore', map_widget.distance('Shanghai', 'Singapore'), curvature=0.4, direction="out")
-        map_widget.add_arista('Singapore', 'Mumbai', map_widget.distance('Singapore', 'Mumbai'), curvature=0.3, direction="out")
-        map_widget.add_arista('Mumbai', 'Dubai', map_widget.distance('Mumbai', 'Dubai'), curvature=0.2, direction="in")
-        map_widget.add_arista('Alexandria', 'Dubai', map_widget.distance('Alexandria', 'Dubai'), curvature=0.2, direction="out")
-        map_widget.add_arista('callao', 'Tokyo', map_widget.distance('callao', 'Tokyo'), curvature=0.2, direction="in")
+        #map_widget.add_arista('Tokyo', 'Shanghai', map_widget.distance('Tokyo', 'Shanghai'), curvature=0.3, direction="in")
+        #map_widget.add_arista('Shanghai', 'Singapore', map_widget.distance('Shanghai', 'Singapore'), curvature=0.4, direction="out")
+        #map_widget.add_arista('Singapore', 'Mumbai', map_widget.distance('Singapore', 'Mumbai'), curvature=0.3, direction="out")
+        #map_widget.add_arista('Mumbai', 'Dubai', map_widget.distance('Mumbai', 'Dubai'), curvature=0.2, direction="in")
+        #map_widget.add_arista('Alexandria', 'Dubai', map_widget.distance('Alexandria', 'Dubai'), curvature=0.2, direction="out")
+        #map_widget.add_arista('callao', 'Tokyo', map_widget.distance('callao', 'Tokyo'), curvature=0.2, direction="in")
+
+        # nueva prueba de base de datos con las nuevas aristas incluidas !
+        map_widget.add_arista('Tokyo', 'Busan', 200, curvature=0.3, direction="in")
+        map_widget.add_arista('Shanghai', 'Busan', 150, curvature=0.3, direction="in")
+        map_widget.add_arista('Shanghai', 'Quanzhou', 200, curvature=0.3, direction="in")
+        map_widget.add_arista('Hon Kong', 'Quanzhou', 100, curvature=0.4, direction="out")
+        map_widget.add_arista('Hon Kong', 'Singapore', 100, curvature=0.3, direction="out")
+        map_widget.add_arista('Singapore', 'Chennai', 300, curvature=0.2, direction="out")
+        map_widget.add_arista('Singapore', 'Yakarta', 200, curvature=0.3, direction="out")
+        map_widget.add_arista('Singapore', 'Tuticorin', 200, curvature=0.3, direction="in")
+        map_widget.add_arista('Chennai', 'Tuticorin', 3000, curvature=0.3, direction="out")
+        map_widget.add_arista('Mumbai', 'Tuticorin', 1200, curvature=0.2, direction="in")
+        map_widget.add_arista('Mumbai', 'Dubai', 3000, curvature=0.3, direction="out")
+        map_widget.add_arista('Aden', 'Dubai', 500, curvature=1.2, direction="out")
+        map_widget.add_arista('Aden', 'Alexandria', 500, curvature=0.1, direction="out")
+        map_widget.add_arista('Yakarta', 'Darwin', 2000, curvature=0.2, direction="in")
+        map_widget.add_arista('Darwin', 'Fremantle', 500, curvature=0.2, direction="in")
+        map_widget.add_arista('Darwin', 'Brisbane', 300, curvature=0.2, direction="out")       
+        map_widget.add_arista('Moresby', 'Darwin', 2000, curvature=0.2, direction="in")
+        map_widget.add_arista('Moresby', 'Brisbane', 2000, curvature=0.2, direction="in")
+        map_widget.add_arista('Brisbane', 'Sidney', 2000, curvature=0.2, direction="in")
+
+        #america
+        map_widget.add_arista('san francisco', 'Tokyo', 5000, curvature=0.2, direction="in")
+        map_widget.add_arista('Rio de janeiro', 'buenos aires', 200, curvature=0.2, direction="in")
+        map_widget.add_arista('Rio de janeiro', 'Guayana francesa', 200, curvature=1.0, direction="in")
+        map_widget.add_arista('cabello', 'Guayana francesa', 200, curvature=0.2, direction="in")
+        map_widget.add_arista('cabello', 'cartagena', 200, curvature=0.2, direction="in")
+        map_widget.add_arista('cartagena', 'balboa', 200, curvature=0.2, direction="in")
+        map_widget.add_arista('callao', 'Valparaiso', 150, curvature=0.2, direction="in")
+        map_widget.add_arista('callao', 'guayaquil', 200, curvature=0.2, direction="out")
+        map_widget.add_arista('guayaquil', 'balboa', 250, curvature=0.2, direction="out")
+        map_widget.add_arista('balboa', 'manzanilla', 500, curvature=0.2, direction="out")
+        map_widget.add_arista('manzanilla', 'long beach', 200, curvature=0.2, direction="out")
+        map_widget.add_arista('long beach', 'san francisco', 100, curvature=0.2, direction="out")
+        map_widget.add_arista('new york', 'fort lauderdale', 200, curvature=0.2, direction="out")
+        map_widget.add_arista('balboa', 'fort lauderdale', 200, curvature=0.2, direction="in")
+        map_widget.add_arista('houston', 'balboa', 200, curvature=0.2, direction="in")
+
+        #africa
+        map_widget.add_arista('toamasina', 'Tuticorin', 2000, curvature=0.2, direction="in")
+        map_widget.add_arista('toamasina', 'mombasa', 200, curvature=0.2, direction="in")
+        map_widget.add_arista('toamasina', 'durban', 2000, curvature=0.2, direction="in")
+        map_widget.add_arista('port-Gentil', 'durban', 1000, curvature=0.2, direction="in")
+
+        #europa - asia
+        map_widget.add_arista('San Petersburgo', 'Copenhague', 200, curvature=0.1, direction="in")
+        map_widget.add_arista('Copenhague', 'Murmansk', 200, curvature=2.3, direction="out")
+        map_widget.add_arista('Murmansk', 'Arkits', 200, curvature=0.3, direction="out")
+        map_widget.add_arista('Uelen', 'Arkits', 200, curvature=0.3, direction="out")
+        map_widget.add_arista('Uelen', 'Tokyo', 200, curvature=0.3, direction="out")
 
     # ------------------Puertos------------------------
     else:
      #America
      map_widget.add_puerto('New York', (55.7128, -106.0060), 'América')
-     map_widget.add_puerto('Los Angeles', (53.0522, -169.2437), 'América')
+     map_widget.add_puerto('Fort Lauderdale', (43.7128, -111.0060), 'América')
      map_widget.add_puerto('Panama City', (20.9824, -109.5199), 'América')
      map_widget.add_puerto('Manzanillo', (36.9824, -149.5199), 'América')
      map_widget.add_puerto('Buenos Aires', (-40.6037, -85.3816), 'América')
      map_widget.add_puerto('Rio de Janeiro', (-10.9068, -45.1729), 'América')
+     map_widget.add_puerto('Rio Grande', (-30.9068, -70.1729), 'América')
      map_widget.add_puerto('Guayana Francesa', (16.9068, -65.1729), 'América')
      map_widget.add_puerto('Callao', (0.9068, -106.1729), 'América')
      map_widget.add_puerto('Guayaquil', (8.5068, -110.1729), 'América')
      map_widget.add_puerto('Cartagena', (25.9068, -100.1729), 'América')
+     map_widget.add_puerto('Cabello', (23.9068, -85.1729), 'América')
      map_widget.add_puerto('San Antonio', (-28.5068, -95.1729), 'América')
      map_widget.add_puerto('Montreal', (70.0, -100.0), 'América')
-    
-     # Europa
+
+    # Europa
      map_widget.add_puerto('Portugal', (63.0, 2.5), 'Europa')
      map_widget.add_puerto('Valencia', (61.0, 15.5), 'Europa')
      map_widget.add_puerto('Hamburg', (83.6, 34.0), 'Europa')
@@ -355,48 +415,62 @@ def find_route():
      map_widget.add_puerto('Dakar', (30.0, -10.5), 'Africa')
      map_widget.add_puerto('Abiyan', (19.0, 6.5), 'Africa')
      map_widget.add_puerto('Lagos', (19.0, 23.5), 'Africa')
-     map_widget.add_puerto('Duban', (-33.0, 45.0), 'Africa')
+     map_widget.add_puerto('Walbys bay', (-15.0, 40), 'Africa')
+     map_widget.add_puerto('Durban', (-31.0, 48.0), 'Africa')
      map_widget.add_puerto('Mombasa', (7.0, 80.0), 'Africa')
      map_widget.add_puerto('Toamasina', (-10.0, 93.0), 'Africa')
      map_widget.add_puerto('Port-Gentil', (10.0, 31.0), 'Africa')
+     map_widget.add_puerto('Luanda', (-1.0, 39.0), 'Africa')
+     map_widget.add_puerto('alexandria', (51.0, 66.0), 'Africa')
+     map_widget.add_puerto('aden', (28.0,85.0), 'Africa')
+     map_widget.add_puerto('Mogadiscio', (20.0,95.0), 'Africa')
 
      # ----------------Aristas----------------------
 
      #America
-     # PRUEBA DE BASE DE DATOS
-     map_widget.add_arista('New York', 'Portugal', map_widget.distance('New York', 'Portugal'), curvature=0.3, direction="in")
-     map_widget.add_arista('New York', 'Panama City', map_widget.distance('New York', 'Panama City'), curvature=0.4, direction="in")
-     map_widget.add_arista('Manzanillo', 'Panama City', map_widget.distance('Manzanillo', 'Panama City'), curvature=0.3, direction="in")
-     map_widget.add_arista('Guayana Francesa', 'Cartagena', map_widget.distance('Guayana Francesa', 'Cartagena'), curvature=0.5, direction="in")
-     map_widget.add_arista('Cartagena', 'Panama City', map_widget.distance('Cartagena', 'Panama City'), curvature=0.5, direction="in")
-     map_widget.add_arista('Los Angeles', 'Panama City', map_widget.distance('Los Angeles', 'Panama City'), curvature=0.3, direction="out")
-     map_widget.add_arista('Callao', 'Guayaquil', map_widget.distance('Callao', 'Guayaquil'), curvature=0.3, direction="out")
-     map_widget.add_arista('Callao', 'San Antonio', map_widget.distance('Callao', 'San Antonio'), curvature=0.3, direction="out")
-     map_widget.add_arista('Guayaquil', 'Panama City', map_widget.distance('Guayaquil', 'Panama City'), curvature=0.3, direction="out")
-     map_widget.add_arista('Buenos Aires', 'Rio de Janeiro', map_widget.distance('Buenos Aires', 'Rio de Janeiro'), curvature=0.3, direction="in")
-     map_widget.add_arista('Rio de Janeiro', 'Guayana Francesa', map_widget.distance('Rio de Janeirio', 'Guyana Francesa'), curvature=0.9, direction="in")
-     map_widget.add_arista('Montreal', 'New York', map_widget.distance('Montreal', 'New York'), curvature=2, direction="in")
-    
+     map_widget.add_arista('New York', 'Portugal', 10000, curvature=0.3, direction="in")
+     map_widget.add_arista('Fort Lauderdale', 'Panama City', 700, curvature=0.4, direction="in")
+     map_widget.add_arista('Fort Lauderdale', 'New York', 700, curvature=0.4, direction="in")
+     map_widget.add_arista('Cartagena', 'Panama City', 100, curvature=0.4, direction="in")
+     map_widget.add_arista('Cartagena', 'Fort Lauderdale', 200, curvature=0.4, direction="in")
+     map_widget.add_arista('Manzanillo', 'Panama City', 500, curvature=0.3, direction="in")
+     map_widget.add_arista('Cabello', 'Cartagena', 100, curvature=0.5, direction="in")
+     map_widget.add_arista('Callao', 'Guayaquil', 180, curvature=0.3, direction="out")
+     map_widget.add_arista('Callao', 'San Antonio', 100, curvature=0.3, direction="out")
+     map_widget.add_arista('Guayaquil', 'Panama City', 180, curvature=0.3, direction="out")
+     map_widget.add_arista('Guayana Francesa', 'Cabello', 100, curvature=0.3, direction="in")
+     map_widget.add_arista('Guayana Francesa', 'Rio de Janeiro', 1000, curvature=0.3, direction="in")
+     map_widget.add_arista('Rio Grande', 'Rio de Janeiro', 100, curvature=0.3, direction="in")
+     map_widget.add_arista('Buenos Aires', 'Rio Grande', 100, curvature=0.3, direction="in")
+     map_widget.add_arista('Rio de Janeiro', 'Guayana Francesa', 700, curvature=0.9, direction="in")
+     map_widget.add_arista('Montreal', 'New York', 100, curvature=2, direction="in")
+
      # Europa
-     map_widget.add_arista('Portugal', 'Le Havre', map_widget.distance('Portugal', 'Le Havre'), curvature=0.6, direction="in")
-     map_widget.add_arista('Portugal', 'Casablanca', map_widget.distance('Portugal', 'Casablanca'), curvature=0.2, direction="in")
-     map_widget.add_arista('Roterdam', 'Le Havre', map_widget.distance('Roterdam', 'Le Havre'), curvature=0.5, direction="in")
-     map_widget.add_arista('Roterdam', 'Hamburg', map_widget.distance('Roterdam', 'Hamburg'), curvature=0.5, direction="in")
+     map_widget.add_arista('Portugal', 'Le Havre', 110, curvature=0.6, direction="in")
+     map_widget.add_arista('Portugal', 'Casablanca', 1000, curvature=0.2, direction="in")
+     map_widget.add_arista('Roterdam', 'Le Havre', 100, curvature=0.5, direction="in")
+     map_widget.add_arista('Roterdam', 'Hamburg', 20, curvature=0.5, direction="in")
 
-     map_widget.add_arista('Genova', 'Valencia', map_widget.distance('Genova', 'Valencia'), curvature=0.2, direction="out")
-     map_widget.add_arista('Genova', 'Atenas', map_widget.distance('Genova', 'Atenas'), curvature=0.5, direction="out")
-     map_widget.add_arista('Casablanca', 'Valencia', map_widget.distance('Casablanca', 'Valencia'), curvature=0.2, direction="out")
+     map_widget.add_arista('Genova', 'Valencia', 500, curvature=0.2, direction="out")
+     map_widget.add_arista('Genova', 'Atenas', 600, curvature=0.5, direction="out")
+     map_widget.add_arista('Casablanca', 'Valencia', 200, curvature=0.2, direction="out")
 
 
-     # África
-     map_widget.add_arista('Nuakchot', 'Casablanca', map_widget.distance('Nuakchot', 'Casablanca'), curvature=0.5, direction="in")
-     map_widget.add_arista('Nuakchot', 'Dakar', map_widget.distance('Nuakchot', 'Dakar'), curvature=0.5, direction="in")
-     map_widget.add_arista('Dakar', 'Abiyan', map_widget.distance('Dakar', 'Abiyan'), curvature=0.5, direction="in")
-     map_widget.add_arista('Abiyan', 'Lagos', map_widget.distance('Abiyan', 'Lagos'), curvature=0.6, direction="in")
-     map_widget.add_arista('Lagos', 'Port-Gentil', map_widget.distance('Lagos', 'Port-Gentil'), curvature=0.5, direction="in")
-     map_widget.add_arista('Duban', 'Port-Gentil', map_widget.distance('Duban', 'Port-Gentil'), curvature=0.7, direction="in")
-     map_widget.add_arista('Duban', 'Toamasina', map_widget.distance('Duban', 'Toamasina'), curvature=0.7, direction="out")
-     map_widget.add_arista('Mombasa', 'Toamasina', map_widget.distance('Mombasa', 'Toamasina'), curvature=1.2, direction="out")
+    # África
+     map_widget.add_arista('Nuakchot', 'Casablanca', 200, curvature=0.5, direction="in")
+     map_widget.add_arista('Nuakchot', 'Dakar', 50, curvature=0.5, direction="in")
+     map_widget.add_arista('Dakar', 'Abiyan', 100, curvature=0.5, direction="in")
+     map_widget.add_arista('Abiyan', 'Lagos', 180, curvature=0.6, direction="in")
+     map_widget.add_arista('Lagos', 'Port-Gentil', 70, curvature=0.5, direction="in")
+     map_widget.add_arista('Luanda', 'Port-Gentil', 100, curvature=0.7, direction="in")
+     map_widget.add_arista('Luanda', 'Walbys bay', 200, curvature=0.7, direction="in")
+     map_widget.add_arista('Walbys bay', 'Durban', 200, curvature=0.7, direction="in")
+     map_widget.add_arista('Durban', 'Toamasina', 700, curvature=0.7, direction="out")
+     map_widget.add_arista('Mombasa', 'Toamasina', 250, curvature=1.2, direction="in")
+     map_widget.add_arista('Mombasa', 'Mogadiscio', 250, curvature=0.2, direction="in")
+     map_widget.add_arista('Mogadiscio', 'aden', 250, curvature=1.2, direction="in")
+     map_widget.add_arista('alexandria', 'aden', 300, curvature=0.1, direction="out")
+     map_widget.add_arista('alexandria', 'Atenas', 250, curvature=0.1, direction="out")
 
     pass
 
@@ -409,15 +483,12 @@ def find_route():
         print(route_str)
         map_widget.animate_route(route)
         map_widget.generate_html(route)
-            
+
     else:
         print("No se encontró una ruta")
-    
+
     root.mainloop()
-
     threading.Thread(target=find_route).start()
-
-
     return render_template('ruta encontrada.html', route=route)
 
 if __name__ == '__main__':
